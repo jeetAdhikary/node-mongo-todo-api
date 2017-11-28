@@ -1,3 +1,5 @@
+require('./config/config');
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var _ = require('lodash');
@@ -8,6 +10,8 @@ var {User} = require('./models/user');
 const {ObjectID} = require('mongodb');
 
 var app =express();
+const port = process.env.PORT ;
+
 app.use(bodyParser.json());
 
 app.post('/todos',(req,res)=>{
@@ -83,7 +87,7 @@ app.patch('/todos/:id',(req,res)=>{
   })
 });
 
-app.listen(3000,()=>{
+app.listen(port,()=>{
   console.log('Server Started on Port 3000');
 });
 
