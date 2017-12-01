@@ -8,7 +8,7 @@ var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 const {ObjectID} = require('mongodb');
-
+var {authenticate} = require('./middleware/authenticate');
 var app =express();
 const port = process.env.PORT ;
 
@@ -98,6 +98,12 @@ app.post('/user', (req, res)=>{
     console.log(e);
     res.status(400).send(e);
   });
+});
+
+
+app.get('/user/me', authenticate, (req, res)=>{
+  var token = req.header('x-auth');
+  res.send(req.user);
 });
 
 app.listen(port,()=>{
