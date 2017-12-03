@@ -95,7 +95,6 @@ app.post('/user', (req, res)=>{
   }).then((token)=>{
     res.header('x-auth', token).send(newUser);
   }).catch((e)=>{
-    console.log(e);
     res.status(400).send(e);
   });
 });
