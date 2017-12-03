@@ -190,7 +190,7 @@ describe('POST /user', ()=>{
   });
 
   it('should not create user if email is in use',(done)=>{
-    var email = users[0].email ;
+    var email = users[0].email;
     var password = 'afeffad';
     request(app).post('/user').send({email, password}).expect(400).end(done);
   });
