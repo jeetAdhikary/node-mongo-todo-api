@@ -12,7 +12,7 @@ const {User} = require('./models/user');
 const {authenticate} = require('./middleware/authenticate');
 
 const app =express();
-const port = process.env.PORT ;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
@@ -44,7 +44,7 @@ app.get('/todos/:id', (req, res) => {
     if (!todo) {
       res.status(404).send();
     }
-    res.send({todo});
+    res.send({todo});res.send({todo});
   }).catch((e)=>{
     res.status(400).send();
   });

@@ -195,3 +195,41 @@ describe('POST /user', ()=>{
     request(app).post('/user').send({email, password}).expect(400).end(done);
   });
 });
+
+describe('POST users/login',()=>{
+  it('should login user and return auth token',(done)=>{
+    var email = users[0].email;
+    var password = users[0].password;
+    request(app).post('/user/login').send({email,password}).expect(200).expect((res)=>{
+      expect(res.headers['x-auth']).toExist;
+    }).end((err,res)=>{
+      if(err){
+        return done(err);
+      }
+      User.findById(users[0]._id).then((user)=>{
+        expect(user.tokens[1].token).toBe(res.headers['x-auth']);
+        done();
+      }).catch((e)=>{
+         return done(e);
+      })
+    });
+  });
+
+  it('should reject invalid login', ()=>{
+    var email = users[1].email;
+    var password = 'asdeefegrgfg';
+    request(app).post('/user/login').send({email, password}).expect(400).expect((res)=>{
+      expect(res.headers['x-auth']).toNotExist;
+    }).end((err,res)=>{
+      if(err){
+        return done(err);
+      }
+      User.findById(user[1]._id).then((then)=>{
+        expect(user.tokens.length).toBe(0);
+        done();
+      }).catch((e)=>{
+        return done(e);
+      })
+    })
+  });
+});
